@@ -1,22 +1,31 @@
-import { getUser } from "@workos-inc/authkit-nextjs";
+import {getSignInUrl, getUser, signOut} from "@workos-inc/authkit-nextjs";
 import Link from "next/link";
 
 export default async function Header() {
   const { user } = await getUser();
+  const signInUrl = await getSignInUrl();
   return (
-    <header className="w-full px-5 flex justify-center items-center shadow-md h-16 bg-white sticky top-0 z-10">
-      <div className="container  flex items-center justify-between ">
-        <Link href="/" className="text-xl font-bold no-underline">
-          Career Base
-        </Link>
-
-        <nav className="flex gap-2 *:py-2 *:px-4 *:rounded-md ">
-          <Link href="/login" className="bg-gray-200">
-            Login
-          </Link>
-
-          <Link href="/new-job" className=" bg-blue-600 text-white">
-            Post a Job
+    <header>
+      <div className="container flex items-center justify-between mx-auto my-4">
+        <Link href={'/'} className="font-bold text-xl">Job Board</Link>
+        <nav className="flex gap-2">
+          {!user && (
+            <Link className="rounded-md bg-gray-200 py-1 px-2 sm:py-2 sm:px-4" href={signInUrl}>
+              Login
+            </Link>
+          )}
+          {user && (
+            <form action={async () => {
+              'use server';
+              await signOut();
+            }}>
+              <button type="submit" className="rounded-md bg-gray-200 py-1 px-2 sm:py-2 sm:px-4">
+                Logout
+              </button>
+            </form>
+          )}
+          <Link className="rounded-md py-1 px-2 sm:py-2 sm:px-4 bg-blue-600 text-white" href={'/new-listing'}>
+            Post a job
           </Link>
         </nav>
       </div>

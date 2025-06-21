@@ -1,9 +1,8 @@
+import Header from "@/app/components/Header";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./global.css";
-import Link from "next/link";
-import Header from "./components/Header";
-import Hero from "./Hero";
+import "./globals.css";
+import '@radix-ui/themes/styles.css';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,17 +13,16 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
     <html lang="en">
       <body className={inter.className}>
         <Header />
-
         {children}
-        <footer className="container py-8 text-center text-gray-500">
-          Career Base &copy; 2025 - All rights reserved.
+        <footer className="container py-8 text-gray-500">
+          Job Board &copy; 2024 - All rights reserved
         </footer>
       </body>
     </html>
